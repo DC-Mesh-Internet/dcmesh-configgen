@@ -1,6 +1,6 @@
 # Configgen: DC Mesh Configuration Generator
 
-Configgen helps users configure their wireless devices to connect to DC Mesh. It loads configuration templates from our [nycmeshnet/nycmesh-configs](https://github.com/nycmeshnet/nycmesh-configs) repo using Github's API and allows users to customize certain fields.
+Configgen helps users configure their wireless devices to connect to DC Mesh. It loads configuration templates from our [DC-Mesh-Internet/dcmesh-configs]{https://github.com/DC-Mesh-Internet/dcmesh-configs} repo using Github's API and allows users to customize certain fields.
 
 It is a React app which we currently host at Netlify.
 
