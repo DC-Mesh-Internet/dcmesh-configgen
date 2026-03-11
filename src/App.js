@@ -4,6 +4,7 @@ import qs from "qs";
 
 import Options from "./components/Options";
 import Tags from "./components/Tags";
+import Wards from "./components/Wards";
 import Script from "./components/Script";
 import InfoText from "./components/InfoText";
 
@@ -19,6 +20,7 @@ function App() {
   const [selectedTemplate, setSelectedTemplate] = useState();
 
   const [tagValues, setTagValues] = useState({});
+  const [wardValues, setWardValues] = useState({});
 
   const params = qs.parse(window.location.search.replace("?", ""));
 
@@ -67,6 +69,14 @@ function App() {
       )
     : null;
 
+  const wards = selectedTemplate
+    ? Mustache.parse(selectedTemplate.content).reduce(
+        (acc, i) =>
+          !acc.includes(i[1]) && i[0] === "name" ? acc.concat(i[1]) : acc,
+        []
+      )
+    : null;
+
   const onVersionSelected = (version) => {
     setSelectedVersion(version);
     setSelectedDevice();
@@ -96,9 +106,13 @@ function App() {
     setTagValues({ ...tagValues, [key]: value });
   };
 
+  const onWardChange = (key, value) => {
+    setWardValues({ ...wardValues, [key]: value });
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
-    downloadConfig(selectedTemplate, tagValues);
+    downloadConfig(selectedTemplate, tagValues, wardValues);
   };
 
   return (
@@ -116,7 +130,10 @@ function App() {
             onDeviceSelected={onDeviceSelected}
             onTemplateSelected={onTemplateSelected}
           />
+          
+          <Wards wards={wards} wardValues={wardValues} onChange={onWardChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
+
           {selectedVersion && selectedDevice && selectedTemplate && (
             <input
               type="submit"
@@ -128,7 +145,7 @@ function App() {
         {selectedVersion && selectedDevice && selectedTemplate && <InfoText />}
       </div>
       <div className="w-100 h-100 overflow-y-scroll">
-        <Script template={selectedTemplate} tagValues={tagValues} />
+        <Script template={selectedTemplate} tagValues={tagValues} wardValues={wardValues}/>
       </div>
     </div>
   );
@@ -144,12 +161,12 @@ function setQuery(params) {
   );
 }
 
-function downloadConfig(template, tags) {
-  if (!template || !tags) return null;
+function downloadConfig(template, tags, wards) {
+  if (!template || !tags || wards) return null;
 
   const { name, content } = template;
   const fileName = name
-    ? name.replace("nnnn", tags.nodenumber).replace(".tmpl", "")
+    ? name.replace("nnnn", tags.nodenumber).replace("wwww", wards.wardnumber).replace(".tmpl", "")
     : "config.txt";
   const configText = Mustache.render(content, tags);
   var blob = new Blob([configText], {

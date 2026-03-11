@@ -6,12 +6,12 @@ import routeros from 'highlight.js/lib/languages/routeros';
 // Register only the needed language in Highlight.js
 hljs.registerLanguage('routeros', routeros);
 
-function Script({ template, tagValues }) {
-  if (!template || !tagValues) return null;
+function Script({ template, tagValues, wardValues }) {
+  if (!template || !tagValues || !wardValues) return null;
   return (
     <div className="overflow-x-scroll f6">
       <Highlight className="mv0 pa4" language="routeros">
-        {Mustache.render(template.content, tagValues)}
+        {Mustache.render(template.content, tagValues, wardValues)}
       </Highlight>
     </div>
   );

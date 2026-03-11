@@ -1,0 +1,24 @@
+{
+    "neighborhoods" : {
+        "Adams Morgan" : "admo",
+        "Columbia Heights" : "cohi",
+        "Kalorama Triangle" : "katr",
+        "Lanier Heights" : "lahi",
+        "LeDroit Park" : "dprk",
+        "Meridian Hill" : "mehi",
+        "Mount Pleasant" : "mntp",
+        "Park View" : "prkv",
+        "Pleasant Plains" : "plpl",
+        "U Street Corridor" : "ustc",
+        "Woodley Park" : "wprk",
+        "Burleith" : "burl",
+        "Chinatown" : "ctwn",
+        "Downtown" : "dtwn",
+        "Dupont Circle" : "duci",
+        "Foggy Bottom" : "fobo",
+        "Georgetown" : "gtwn",
+        "Sheridan-Kalorama" : "shka",
+        "Logan Circle" : "loci",
+        "Mount Vernon Square" : "mvsq"
+    }
+}
