@@ -35,7 +35,7 @@ function Wards({ wards, wardValues, onChange }) {
 
 function getWard(ward) {
   if (ward === "wardnumber") return "ward selection";
-  if (ward === 1) return "ward1";
+  if (ward === "1") return "ward1";
   if (ward === "2") return "ward2";
   if (ward === "3") return "ward3";
   if (ward === "4") return "ward4";
