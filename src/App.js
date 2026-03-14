@@ -115,6 +115,17 @@ function App() {
     downloadConfig(selectedTemplate, tagValues, wardValues);
   };
 
+  const wardOptions = {
+        "Ward 1" : [ "1a", "1b", "1c", "1d", "1e"],
+        "Ward 2" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
+        "Ward 3" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
+        "Ward 4" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
+        "Ward 5" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
+        "Ward 6" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
+        "Ward 7" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
+        "Ward 8" : [ "1a", "1b", "1c", "1d", "1e", "1f" ]
+    }
+
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
       <div className="bg-near-white measure-l w-100 pa4 unselectable br b--light-gray">
@@ -130,8 +141,7 @@ function App() {
             onDeviceSelected={onDeviceSelected}
             onTemplateSelected={onTemplateSelected}
           />
-          
-          <Wards wards={wards} wardValues={wardValues} onChange={onWardChange} />
+          <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (
@@ -168,7 +178,7 @@ function downloadConfig(template, tags, wards) {
   const fileName = name
     ? name.replace("nnnn", tags.nodenumber).replace("wwww", wards.wardnumber).replace(".tmpl", "")
     : "config.txt";
-  const configText = Mustache.render(content, tags);
+  const configText = Mustache.render(content, tags, wards);
   var blob = new Blob([configText], {
     type: "text/csv;charset=utf8;", // Why csv??
   });
