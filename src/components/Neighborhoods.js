@@ -46,7 +46,7 @@ function Neighborhoods({ locations, locationValues, onChange, options }) {
 }
 
 function getLabel(location) {
-  if (location === "neighborhood") return "neighborhood";
+  if (location === "neighborhood") return "neighborhood location";
   return location;
 }
 

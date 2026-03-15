@@ -8,8 +8,8 @@ It is a React app which we currently host at Netlify.
 
 Ensure that you start the app in a docker container with Node.js 16 such as `node:16.20.2-bookworm-slim`.
 
-    docker run --rm -it --entrypoint /bin/bash -v `pwd`:/nycmesh-configgen node:16.20.2-bookworm-slim
-    cd /nycmesh-configgen
+    docker run --rm -it --entrypoint /bin/bash -v `pwd`:/dcmesh-configgen node:16.20.2-bookworm-slim
+    cd /dcmesh-configgen
     yarn install
     yarn start
 

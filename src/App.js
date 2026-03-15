@@ -5,11 +5,11 @@ import qs from "qs";
 import Options from "./components/Options";
 import Tags from "./components/Tags";
 import Wards from "./components/Wards";
+import Neighborhoods from "./components/Neighborhoods";
 import Script from "./components/Script";
 import InfoText from "./components/InfoText";
 
 import { fetchVersions, fetchDevices, fetchTemplates } from "./api/github";
-import Neighborhoods from "./components/Neighborhoods";
 
 function App() {
   const [versions, setVersions] = useState();
@@ -159,6 +159,7 @@ function App() {
   console.log("wardOptions:", wardOptions); // Should be a nested object
   console.log("wardValues:", wardValues);   // Should be a nested object
   console.log("tagValues:", tagValues);   // Should be a nested object
+  console.log("locationValues:", locationValues);   // Should be a nested object
 
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
@@ -177,7 +178,7 @@ function App() {
           />
 
           <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
-          <Neighborhoods locations={locations || []}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
+          <Neighborhoods locations={locations}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (
