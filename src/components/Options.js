@@ -47,11 +47,14 @@ function Section({ label, options, selected, onChange }) {
     return acc;
   }, {});
 
+  const id = label.toLowerCase().replace(/\s+/g, '-');
+
   return (
     <div className="w-100 flex items-center justify-between mv2">
-      <label htmlFor="device">{label}</label>
+      <label htmlFor={id}>{label}</label>
       <select
-        name="version"
+        id={id}
+        name={id}
         value={getName(selected)}
         onChange={({ target }) => onChange && onChange(nameMap[target.value])}
       >

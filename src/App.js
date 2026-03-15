@@ -157,6 +157,7 @@ function App() {
   console.log("wards:", wards);          // Should show only ward variables
   console.log("tags:", tags);            // Should show only non-ward variables
   console.log("wardOptions:", wardOptions); // Should be a nested object
+  console.log("locationOptions:", locationOptions); // Should be a nested object
   console.log("wardValues:", wardValues);   // Should be a nested object
   console.log("tagValues:", tagValues);   // Should be a nested object
   console.log("locationValues:", locationValues);   // Should be a nested object
@@ -164,7 +165,7 @@ function App() {
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
       <div className="bg-near-white measure-l w-100 pa4 unselectable br b--light-gray">
-        <form className="flex flex-column items-end" onSubmit={onSubmit}>
+        <form id="fill" className="flex flex-column items-end" onSubmit={onSubmit}>
           <Options
             versions={versions}
             devices={devices}
@@ -178,7 +179,7 @@ function App() {
           />
 
           <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
-          <Neighborhoods locations={locations}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
+          <Neighborhoods locations={locations || ""}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (

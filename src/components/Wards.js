@@ -46,12 +46,14 @@ function Wards({ wards, wardValues, onChange, options }) {
 
     return (
       <div key={ward} className="w-100 flex items-center justify-between mt2">
-        <label htmlFor={ward}>{label}</label>
+        <label htmlFor={label}>{label}</label>
 
         {/* ALWAYS RENDER TWO DROPDOWNS - No text input fallback */}
         <div className="flex w-100 ml3 mw5">
           {/* First Dropdown: Category */}
           <select
+            id={label}
+            name={label}
             value={category}
             onChange={handleCategoryChange}
             className="flex-1 mr1"
@@ -63,6 +65,8 @@ function Wards({ wards, wardValues, onChange, options }) {
           
           {/* Second Dropdown: Value */}
           <select
+            id="ward"
+            name="ward"
             required
             value={value}
             onChange={handleValueChange}

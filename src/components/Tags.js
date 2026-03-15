@@ -20,8 +20,10 @@ function Tags({ tags, tagValues, onChange }) {
 
     return (
       <div key={tag} className="w-100 flex items-center justify-between mt2">
-        <label htmlFor={tag}>{label}</label>
+        <label htmlFor={label}>{tag}</label>
         <input
+          id={label}
+          name={label}
           required
           value={value}
           spellCheck={false}

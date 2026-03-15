@@ -24,10 +24,12 @@ function Neighborhoods({ locations, locationValues, onChange, options }) {
 
     return (
       <div key={location} className="w-100 flex items-center justify-between mt2">
-        <label htmlFor={location}>{label}</label>
+        <label htmlFor={label}>{location}</label>
         
         {/* Single Dropdown showing Keys */}
         <select
+          id={label}
+          name={label}
           required
           value={currentValue ? Object.keys(safeOptions).find(key => safeOptions[key] === currentValue) : ""}
           onChange={handleChange}
