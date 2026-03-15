@@ -9,6 +9,7 @@ import Script from "./components/Script";
 import InfoText from "./components/InfoText";
 
 import { fetchVersions, fetchDevices, fetchTemplates } from "./api/github";
+import Neighborhoods from "./components/Neighborhoods";
 
 function App() {
   const [versions, setVersions] = useState();
@@ -21,6 +22,7 @@ function App() {
 
   const [tagValues, setTagValues] = useState({});
   const [wardValues, setWardValues] = useState({});
+  const [locationValues, setLocationValues] = useState({});
 
   const params = qs.parse(window.location.search.replace("?", ""));
 
@@ -72,7 +74,8 @@ function App() {
 
   // Split: ward-related variables go to Wards, rest go to Tags
   const wards = allVars?.filter(v => v.includes("ward")) || null;
-  const tags = allVars?.filter(v => !v.includes("ward")) || null;
+  const tags = allVars?.filter(v => v.includes("tag")) || null;
+  const locations = allVars?.filter(v => v.includes("location")) || null;
 
   const onVersionSelected = (version) => {
     setSelectedVersion(version);
@@ -107,9 +110,13 @@ function App() {
     setWardValues(prev => ({ ...prev, [key]: value }));
   };
 
+  const onLocationChange = (key, value) => {
+    setLocationValues(prev => ({ ...prev, [key]: value }));
+  };
+
   const onSubmit = (event) => {
     event.preventDefault();
-    downloadConfig(selectedTemplate, tagValues, wardValues);
+    downloadConfig(selectedTemplate, tagValues, wardValues, locationValues);
   };
 
   const wardOptions = {
@@ -123,12 +130,35 @@ function App() {
         "Ward 8" : [ "8a", "8b", "8c", "8d", "8e", "8f" ]
     }
 
-    console.log("allVars:", allVars);      // Should show all variables
-    console.log("wards:", wards);          // Should show only ward variables
-    console.log("tags:", tags);            // Should show only non-ward variables
-    console.log("wardOptions:", wardOptions); // Should be a nested object
-    console.log("wardValues:", wardValues);   // Should be a nested object
-    console.log("tagValues:", tagValues);   // Should be a nested object
+  const locationOptions = {
+        "Adams Morgan" : "admo",
+        "Columbia Heights" : "cohi",
+        "Kalorama Triangle" : "katr",
+        "Lanier Heights" : "lahi",
+        "LeDroit Park" : "dprk",
+        "Meridian Hill" : "mehi",
+        "Mount Pleasant" : "mntp",
+        "Park View" : "prkv",
+        "Pleasant Plains" : "plpl",
+        "U Street Corridor" : "ustc",
+        "Woodley Park" : "wprk",
+        "Burleith" : "burl",
+        "Chinatown" : "ctwn",
+        "Downtown" : "dtwn",
+        "Dupont Circle" : "duci",
+        "Foggy Bottom" : "fobo",
+        "Georgetown" : "gtwn",
+        "Sheridan-Kalorama" : "shka",
+        "Logan Circle" : "loci",
+        "Mount Vernon Square" : "mvsq"
+    }
+
+  console.log("allVars:", allVars);      // Should show all variables
+  console.log("wards:", wards);          // Should show only ward variables
+  console.log("tags:", tags);            // Should show only non-ward variables
+  console.log("wardOptions:", wardOptions); // Should be a nested object
+  console.log("wardValues:", wardValues);   // Should be a nested object
+  console.log("tagValues:", tagValues);   // Should be a nested object
 
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
@@ -147,6 +177,7 @@ function App() {
           />
 
           <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
+          <Neighborhoods locations={locations || []}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (
@@ -160,7 +191,7 @@ function App() {
         {selectedVersion && selectedDevice && selectedTemplate && <InfoText />}
       </div>
       <div className="w-100 h-100 overflow-y-scroll">
-        <Script template={selectedTemplate} tagValues={tagValues} wardValues={wardValues}/>
+        <Script template={selectedTemplate} tagValues={tagValues} wardValues={wardValues} locationValues={locationValues}/>
       </div>
     </div>
   );
@@ -176,12 +207,12 @@ function setQuery(params) {
   );
 }
 
-function downloadConfig(template, tags, wards) {
-  if (!template || !tags || wards) return null;
+function downloadConfig(template, tags, wards, locations) {
+  if (!template || !tags || !wards || !locations) return null;
 
   const { name, content } = template;
   const fileName = name
-    ? name.replace("nnnn", tags.nodenumber).replace("wwww", wards.wardnumber).replace(".tmpl", "")
+    ? name.replace("nnnn", tags.nodenumber).replace("wwww", wards.wardnumber).replace("llll", locations.neighborhood).replace(".tmpl", "")
     : "config.txt";
   const configText = Mustache.render(content, tags, wards);
   var blob = new Blob([configText], {
