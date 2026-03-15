@@ -11,7 +11,7 @@ function Script({ template, tagValues, wardValues }) {
   return (
     <div className="overflow-x-scroll f6">
       <Highlight className="mv0 pa4" language="routeros">
-        {Mustache.render(template.content, tagValues, wardValues)}
+        {Mustache.render(template.content, { ...tagValues, ...wardValues })}
       </Highlight>
     </div>
   );

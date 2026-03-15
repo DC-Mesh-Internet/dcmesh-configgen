@@ -61,7 +61,8 @@ function App() {
     }
   }, [selectedVersion, selectedDevice]);
 
-  const tags = selectedTemplate
+  // Parse template variables ONCE
+  const allVars = selectedTemplate
     ? Mustache.parse(selectedTemplate.content).reduce(
         (acc, i) =>
           !acc.includes(i[1]) && i[0] === "name" ? acc.concat(i[1]) : acc,
@@ -69,13 +70,9 @@ function App() {
       )
     : null;
 
-  const wards = selectedTemplate
-    ? Mustache.parse(selectedTemplate.content).reduce(
-        (acc, i) =>
-          !acc.includes(i[1]) && i[0] === "name" ? acc.concat(i[1]) : acc,
-        []
-      )
-    : null;
+  // Split: ward-related variables go to Wards, rest go to Tags
+  const wards = allVars?.filter(v => v.includes("ward")) || null;
+  const tags = allVars?.filter(v => !v.includes("ward")) || null;
 
   const onVersionSelected = (version) => {
     setSelectedVersion(version);
@@ -103,11 +100,11 @@ function App() {
   };
 
   const onTagChange = (key, value) => {
-    setTagValues({ ...tagValues, [key]: value });
+    setTagValues(prev => ({ ...prev, [key]: value }));
   };
 
   const onWardChange = (key, value) => {
-    setWardValues({ ...wardValues, [key]: value });
+    setWardValues(prev => ({ ...prev, [key]: value }));
   };
 
   const onSubmit = (event) => {
@@ -117,14 +114,21 @@ function App() {
 
   const wardOptions = {
         "Ward 1" : [ "1a", "1b", "1c", "1d", "1e"],
-        "Ward 2" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
-        "Ward 3" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
-        "Ward 4" : [ "1a", "1b", "1c", "1d", "1e", "1f", "1g" ],
-        "Ward 5" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
-        "Ward 6" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
-        "Ward 7" : [ "1a", "1b", "1c", "1d", "1e", "1f" ],
-        "Ward 8" : [ "1a", "1b", "1c", "1d", "1e", "1f" ]
+        "Ward 2" : [ "2a", "2b", "2c", "2d", "2e", "2f", "2g" ],
+        "Ward 3" : [ "3a", "3b", "3c", "3d", "3e", "3f", "3g" ],
+        "Ward 4" : [ "4a", "4b", "4c", "4d", "4e", "4f", "4g" ],
+        "Ward 5" : [ "5a", "5b", "5c", "5d", "5e", "5f" ],
+        "Ward 6" : [ "6a", "6b", "6c", "6d", "6e", "6f" ],
+        "Ward 7" : [ "7a", "7b", "7c", "7d", "7e", "7f" ],
+        "Ward 8" : [ "8a", "8b", "8c", "8d", "8e", "8f" ]
     }
+
+    console.log("allVars:", allVars);      // Should show all variables
+    console.log("wards:", wards);          // Should show only ward variables
+    console.log("tags:", tags);            // Should show only non-ward variables
+    console.log("wardOptions:", wardOptions); // Should be a nested object
+    console.log("wardValues:", wardValues);   // Should be a nested object
+    console.log("tagValues:", tagValues);   // Should be a nested object
 
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
@@ -141,6 +145,7 @@ function App() {
             onDeviceSelected={onDeviceSelected}
             onTemplateSelected={onTemplateSelected}
           />
+
           <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
