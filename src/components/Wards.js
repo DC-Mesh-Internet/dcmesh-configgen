@@ -5,20 +5,18 @@ function Wards({ wards, wardValues, onChange, options }) {
   const safeTagValues = wardValues || {};
   const safeOptions = options || {};
 
-  // Track only user-initiated category selections, not derived values
   const [userSelectedCategory, setUserSelectedCategory] = useState({});
 
-  if (safeTags.length === 0) return null;
+  const validWards = safeTags.filter((ward) => ward !== "wardnumber");
 
-  return safeTags.map((ward) => {
-    if (ward === "wardnumber") return null;
+  if (validWards.length === 0) return null;
 
+  return validWards.map((ward) => {
     const label = getLabel(ward);
     const value = safeTagValues[ward] || "";
 
-    // Compute category: use user selection if exists, otherwise derive from current value
     const getCategoryForValue = (val) => {
-      if (!val) return Object.keys(safeOptions)[0] || "";
+      if (!val || !safeOptions) return Object.keys(safeOptions)[0] || "";
       return (
         Object.keys(safeOptions).find((key) =>
           safeOptions[key]?.includes(val)
@@ -39,17 +37,17 @@ function Wards({ wards, wardValues, onChange, options }) {
 
     const handleCategoryChange = ({ target }) => {
       setUserSelectedCategory((prev) => ({ ...prev, [ward]: target.value }));
-      onChange(ward, ""); // Reset value when category changes
+      onChange(ward, "");
     };
 
     return (
       <div key={ward} className="w-100 flex items-center justify-between mt2">
-        <label htmlFor={label}>{label}</label>
+        <label htmlFor={ward}>{label}</label>
 
         <div className="flex w-100 ml3 mw5">
           <select
-            id={`${label}-category`}
-            name={`${label}-category`}
+            id={`${ward}-category`}
+            name={`${ward}-category`}
             value={category}
             onChange={handleCategoryChange}
             className="flex-1 mr1"
@@ -62,8 +60,8 @@ function Wards({ wards, wardValues, onChange, options }) {
           </select>
 
           <select
-            id={label}
-            name={label}
+            id={ward}
+            name={ward}
             required
             value={value}
             onChange={handleValueChange}

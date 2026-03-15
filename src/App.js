@@ -178,9 +178,9 @@ function App() {
             onTemplateSelected={onTemplateSelected}
           />
 
+          <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
           <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
           <Neighborhoods locations={locations || ""}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
-          <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (
             <input
