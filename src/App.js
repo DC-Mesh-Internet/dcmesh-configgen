@@ -165,7 +165,7 @@ function App() {
   return (
     <div className="vh-100-l flex flex-row-l flex-column f5">
       <div className="bg-near-white measure-l w-100 pa4 unselectable br b--light-gray">
-        <form id="fill" className="flex flex-column items-end" onSubmit={onSubmit}>
+        <form className="flex flex-column items-end" onSubmit={onSubmit}>
           <Options
             versions={versions}
             devices={devices}
@@ -179,8 +179,8 @@ function App() {
           />
 
           <Tags tags={tags} tagValues={tagValues} onChange={onTagChange} />
-          <Wards wards={wards || []}   wardValues={wardValues || {}} options={wardOptions} onChange={onWardChange} />
-          <Neighborhoods locations={locations || ""}   locationValues={locationValues || {}} options={locationOptions} onChange={onLocationChange} />
+          <Wards wards={wards}   wardValues={wardValues} options={wardOptions} onChange={onWardChange} />
+          <Neighborhoods locations={locations}   locationValues={locationValues} options={locationOptions} onChange={onLocationChange} />
 
           {selectedVersion && selectedDevice && selectedTemplate && (
             <input
