@@ -2,9 +2,9 @@ import React from "react";
 
 function Neighborhoods({ locations, locationValues, onChange, options }) {
   // Safety checks for props
-  const safeLocations = Array.isArray(locations) ? locations : [];
-  const safeValues = locationValues || {};
-  const safeOptions = options || {}; // Expecting simple dict: { "Key": "Value" }
+  const safeLocations = Array.isArray(locations);
+  const safeValues = locationValues;
+  const safeOptions = options; // Expecting simple dict: { "Key": "Value" }
 
   if (safeLocations.length === 0) return null;
 
