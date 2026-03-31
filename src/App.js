@@ -74,7 +74,7 @@ function App() {
 
   // Split: ward-related variables go to Wards, rest go to Tags
   const wards = allVars?.filter(v => v.includes("ward")) || null;
-  const tags = allVars?.filter(v => v.includes("tag")) || null;
+  const tags = allVars?.filter(v => v.includes("tag") || v === "nodenumber") || null;
   const locations = allVars?.filter(v => v.includes("location") || v.includes("neighborhood")) || null;
 
   const onVersionSelected = (version) => {
