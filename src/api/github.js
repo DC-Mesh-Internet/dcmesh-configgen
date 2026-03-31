@@ -1,5 +1,5 @@
 const REPO_BASE = "https://api.github.com/repos/DC-Mesh-Internet/dcmesh-configs";
-const GITHUB_API_TOKEN = "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" //process.env.REACT_APP_GITHUB_TOKEN || "";
+const GITHUB_API_TOKEN = "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" //process.env.REACT_APP_GITHUB_TOKEN || "";
 
 // Headers for fine-grained PAT authentication
 const HEADERS = GITHUB_API_TOKEN ? {
