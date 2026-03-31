@@ -7,7 +7,7 @@ function Wards({ wards, wardValues, onChange, options }) {
 
   const [userSelectedCategory, setUserSelectedCategory] = useState({});
 
-  const validWards = safeTags.filter((ward) => ward !== "wardnumber");
+  const validWards = safeTags;
 
   if (validWards.length === 0) return null;
 
